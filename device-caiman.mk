@@ -14,8 +14,23 @@
 # limitations under the License.
 #
 
-TARGET_KERNEL_DIR ?= device/google/caimito-kernel
-TARGET_BOARD_KERNEL_HEADERS := device/google/caimito-kernel/kernel-headers
+ifdef RELEASE_GOOGLE_CAIMAN_RADIO_DIR
+RELEASE_GOOGLE_PRODUCT_RADIO_DIR := $(RELEASE_GOOGLE_CAIMAN_RADIO_DIR)
+endif
+ifdef RELEASE_GOOGLE_CAIMAN_RADIOCFG_DIR
+RELEASE_GOOGLE_PRODUCT_RADIOCFG_DIR := $(RELEASE_GOOGLE_CAIMAN_RADIOCFG_DIR)
+endif
+RELEASE_GOOGLE_BOOTLOADER_CAIMAN_DIR ?= 24D1# Keep this for pdk TODO: b/327119000
+RELEASE_GOOGLE_PRODUCT_BOOTLOADER_DIR := bootloader/$(RELEASE_GOOGLE_BOOTLOADER_CAIMAN_DIR)
+$(call soong_config_set,caimito_bootloader,prebuilt_dir,$(RELEASE_GOOGLE_BOOTLOADER_CAIMAN_DIR))
+
+ifdef RELEASE_KERNEL_CAIMAN_DIR
+TARGET_KERNEL_DIR ?= $(RELEASE_KERNEL_CAIMAN_DIR)
+TARGET_BOARD_KERNEL_HEADERS ?= $(RELEASE_KERNEL_CAIMAN_DIR)/kernel-headers
+else
+TARGET_KERNEL_DIR ?= device/google/caimito-kernels/6.1/24D1
+TARGET_BOARD_KERNEL_HEADERS ?= device/google/caimito-kernels/6.1/24D1/kernel-headers
+endif
 
 LOCAL_PATH := device/google/caimito
 
@@ -48,10 +63,14 @@ include device/google/caimito/audio/caiman/audio-tables.mk
 include device/google/zumapro/device-shipping-common.mk
 include hardware/google/pixel/vibrator/cs40l26/device.mk
 include device/google/gs-common/bcmbt/bluetooth.mk
-include device/google/gs-common/touch/gti/gti.mk
-include device/google/gs-common/touch/syna/syna20.mk
+include device/google/gs-common/touch/gti/predump_gti.mk
 include device/google/caimito/fingerprint/ultrasonic_udfps.mk
 include device/google/gs-common/modem/radio_ext/radio_ext.mk
+include device/google/gs-common/pixelsupport/pixelsupport.mk
+
+# Increment the SVN for any official public releases
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.vendor.build.svn=1
 
 # go/lyric-soong-variables
 $(call soong_config_set,lyric,camera_hardware,caiman)
@@ -113,8 +132,11 @@ PRODUCT_PACKAGES += \
 
 # Bluetooth Tx power caps
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits.csv \
-        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits_JP.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits_JP.csv
+        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits_caiman.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits.csv \
+        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits_caiman_JP.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits_JP.csv \
+        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits_caiman_CA.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits_CA.csv \
+        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits_caiman_EU.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits_EU.csv \
+        $(LOCAL_PATH)/bluetooth/bluetooth_power_limits_caiman_US.csv:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_power_limits_US.csv
 
 # DCK properties based on target
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -143,6 +165,13 @@ PRODUCT_PACKAGES += \
 	android.hardware.audio.sounddose-vendor-impl \
 	audio_sounddose_aoc
 endif
+
+# HdMic Audio
+PRODUCT_SOONG_NAMESPACES += device/google/caimito/audio/caiman/prebuilt/libspeechenhancer
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.vendor.app.audio.gsenet.version=1
+PRODUCT_PACKAGES += \
+    libspeechenhancer
 
 # Audio CCA property
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -268,6 +297,9 @@ PRODUCT_PACKAGES += \
 # Display LBE
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.lbe.supported=1
 
+# Display ACL
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.0.brightness.acl.default=1
+
 #Thermal VT estimator
 PRODUCT_PACKAGES += \
     libthermal_tflite_wrapper
@@ -283,9 +315,17 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.camera.ois_with_system_imu=true
 
+# Allow external binning setting
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.camera.allow_external_binning_setting=true
+
 # Camera Vendor property
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.camera.front_720P_always_binning=true
+
+# Enable camera exif model/make reporting
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.camera.exif_reveal_make_model=true
 
 # Media Performance Class 14
 PRODUCT_PRODUCT_PROPERTIES += ro.odm.build.media_performance_class=34
@@ -296,19 +336,16 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.vendor.primarydisplay.preferred_mode=96
 
 ifeq ($(filter factory_caiman, $(TARGET_PRODUCT)),)
     PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.vendor.primarydisplay.xrr.version=2.1
+    PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.vendor.primarydisplay.blocking_zone.min_refresh_rate_by_nits=:1
     PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.vendor.primarydisplay.vrr.expected_present.headsup_ns=30000000
     PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.vendor.primarydisplay.vrr.expected_present.timeout_ns=500000000
 endif
 
-# Display OP HZ Config
-PRODUCT_VENDOR_PROPERTIES += \
-    vendor.primarydisplay.op.hs_hz=120 \
-    vendor.primarydisplay.op.ns_hz=60 \
-    vendor.primarydisplay.op.ns_min_dbv=440 \
-    vendor.primarydisplay.op.hs_switch_min_dbv=1088 \
-    vendor.primarydisplay.op.hist_delta_th=8
+# Display fixed TE2
+PRODUCT_VENDOR_PROPERTIES += vendor.primarydisplay.fixed_te2.default_rate_hz=120
 
 # Vibrator HAL
+$(call soong_config_set,haptics,kernel_ver,v$(subst .,_,$(TARGET_LINUX_KERNEL_VERSION)))
 ACTUATOR_MODEL := luxshare_ict_081545
 ADAPTIVE_HAPTICS_FEATURE := adaptive_haptics_v1
 PRODUCT_VENDOR_PROPERTIES += \
@@ -375,6 +412,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += \
    persist.bluetooth.leaudio.allow_list=SM-R510
 
+# Support LE & Classic concurrent encryption (b/330704060)
+PRODUCT_PRODUCT_PROPERTIES += \
+    bluetooth.ble.allow_enc_with_bredr=true
+
 # Keyboard height ratio and bottom padding in dp for portrait mode
 PRODUCT_PRODUCT_PROPERTIES += \
           ro.com.google.ime.kb_pad_port_b=8 \
@@ -383,10 +424,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # Exynos RIL and telephony
 # Support RIL Domain-selection
 SUPPORT_RIL_DOMAIN_SELECTION := true
-
-# Thread HAL
-PRODUCT_PACKAGES += \
-   com.google.caimito.hardware.threadnetwork
 
 # ETM
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
@@ -399,3 +436,20 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # Window Extensions
 $(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
+
+# Connectivity Resources Overlay
+PRODUCT_PACKAGES += \
+    ConnectivityResourcesOverlayCaimitoOverride
+
+#Component Override for Pixel Troubleshooting App
+PRODUCT_COPY_FILES += \
+    device/google/caimito/caiman/caiman-component-overrides.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sysconfig/caiman-component-overrides.xml
+
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.bluetooth.thread_dispatcher.enabled=true
+
+# Thread HAL
+ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
+PRODUCT_PACKAGES += \
+   com.google.caimito.hardware.threadnetwork
+endif

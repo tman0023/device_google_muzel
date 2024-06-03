@@ -32,6 +32,15 @@
     <!-- Minimum screen brightness allowed by the power manager. -->
     <integer name="config_screenBrightnessDim">6</integer>
 
+     <!-- Default strength, in percentage, of bright color reduction when activated. -->
+    <integer name="config_reduceBrightColorsStrengthDefault">50</integer>
+
+    <!-- Minimum strength, in percentage, supported by bright color reduction. -->
+    <integer name="config_reduceBrightColorsStrengthMin">25</integer>
+
+    <!-- Maximum strength, in percentage, supported by bright color reduction. -->
+    <integer name="config_reduceBrightColorsStrengthMax">75</integer>
+
     <!-- Minimum screen brightness setting allowed by power manager.
          The user is forbidden from setting the brightness below this level.  -->
     <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.0</item>
@@ -51,21 +60,6 @@
 
     <!-- The default peak refresh rate. -->
     <integer name="config_defaultPeakRefreshRate">120</integer>
-
-    <!-- Not allow to switch to higher refresh rate when display brightness setting is
-         equal or less than this value -->
-    <integer-array name="config_brightnessThresholdsOfPeakRefreshRate">
-        <item>2</item> <!-- 15% UI brightness -->
-    </integer-array>
-    <integer-array name="config_ambientThresholdsOfPeakRefreshRate">
-        <item>5</item>
-    </integer-array>
-
-    <!-- default refresh rate in the zone defined by birghtness and ambient thresholds -->
-    <integer name="config_defaultRefreshRateInZone">120</integer>
-
-    <!-- Default refresh rate while the device has high brightness mode enabled for HDR. -->
-    <integer name="config_defaultRefreshRateInHbmHdr">60</integer>
 
     <!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
          for debouncing the light sensor.  Different constants are used to debounce the light sensor
@@ -189,12 +183,12 @@
     <bool name="config_fillMainBuiltInDisplayCutout">true</bool>
     <!-- Display cutout configuration -->
     <string translatable="false" name="config_mainBuiltInDisplayCutout">
-	m 687,102 a 47,47 0 0 0 -94,0 47,47 0 0 0 94,0 z
+        m 689,102 a 49,49 0 0 0 -98,0 49,49 0 0 0 98,0 z
         @left
     </string>
 
     <string translatable="false" name="config_mainBuiltInDisplayCutoutRectApproximation">
-        m 586,43.5 h 115 v 115 H 586 Z
+        m 586,0 h 108.5 v 155.5 H 586 Z
         @left
     </string>
     <!-- A string config in svg path format for the main display shape.

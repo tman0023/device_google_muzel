@@ -32,6 +32,15 @@
      <!-- Minimum screen brightness allowed by the power manager. -->
      <integer name="config_screenBrightnessDim">6</integer>
 
+     <!-- Default strength, in percentage, of bright color reduction when activated. -->
+    <integer name="config_reduceBrightColorsStrengthDefault">35</integer>
+
+    <!-- Minimum strength, in percentage, supported by bright color reduction. -->
+    <integer name="config_reduceBrightColorsStrengthMin">25</integer>
+
+    <!-- Maximum strength, in percentage, supported by bright color reduction. -->
+    <integer name="config_reduceBrightColorsStrengthMax">50</integer>
+
      <!-- Minimum screen brightness setting allowed by power manager.
           The user is forbidden from setting the brightness below this level.  -->
      <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.0</item>
@@ -179,7 +188,7 @@
     </string>
 
     <string translatable="false" name="config_mainBuiltInDisplayCutoutRectApproximation">
-        m 484.5,20.5 h 110 v 121 h -110 z
+        m 484.5,0 h 110 v 141.5 h -110 z
         @left
     </string>
     <!-- A string config in svg path format for the main display shape.
