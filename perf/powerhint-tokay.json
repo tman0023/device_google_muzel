@@ -46,7 +46,7 @@
         "9999999",
         "1425000",
         "1197000",
-        "0"
+        "820000"
       ],
       "ResetOnInit": true
     },
@@ -338,6 +338,42 @@
       "ResetOnInit": true
     },
     {
+      "Name": "TAUclampMinOnNiceEnable",
+      "Path": "/proc/vendor_sched/groups/ta/uclamp_min_on_nice_enable",
+      "Values": [
+        "1",
+        "0"
+      ],
+      "ResetOnInit": true
+    },
+    {
+      "Name": "TAUclampMinOnNiceMidValue",
+      "Path": "/proc/vendor_sched/groups/ta/uclamp_min_on_nice_mid_value",
+      "Values": [
+        "600",
+        "0"
+      ],
+      "ResetOnInit": true
+    },
+    {
+      "Name": "TAUclampMinOnNiceHighPrio",
+      "Path": "/proc/vendor_sched/groups/ta/uclamp_min_on_nice_high_prio",
+      "Values": [
+        "119",
+        "120"
+      ],
+      "ResetOnInit": true
+    },
+    {
+      "Name": "TAUclampMinOnNiceMidPrio",
+      "Path": "/proc/vendor_sched/groups/ta/uclamp_min_on_nice_mid_prio",
+      "Values": [
+        "128",
+        "130"
+      ],
+      "ResetOnInit": true
+    },
+    {
       "Name": "FGUClampBoost",
       "Path": "/proc/vendor_sched/groups/fg/uclamp_min",
       "Values": [
@@ -453,6 +489,7 @@
       "Path": "/proc/vendor_sched/groups/ta/preferred_idle_mask_high",
       "Values": [
         "0xff",
+        "0xf0",
         "0x7f"
       ],
       "ResetOnInit": true
@@ -462,6 +499,7 @@
       "Path": "/proc/vendor_sched/groups/ta/preferred_idle_mask_mid",
       "Values": [
         "0xff",
+        "0xf0",
         "0x7f"
       ],
       "ResetOnInit": true
@@ -471,6 +509,7 @@
       "Path": "/proc/vendor_sched/groups/ta/preferred_idle_mask_low",
       "Values": [
         "0xff",
+        "0xf0",
         "0x7f"
       ],
       "ResetOnInit": true
@@ -533,16 +572,6 @@
     {
       "Name": "PowerHALCameraRunning",
       "Path": "vendor.powerhal.camerarunning",
-      "Values": [
-        "1",
-        "0"
-      ],
-      "Type": "Property",
-      "ResetOnInit": true
-    },
-    {
-      "Name": "PowerHALLaunch",
-      "Path": "vendor.powerhal.is_launch",
       "Values": [
         "1",
         "0"
@@ -690,9 +719,10 @@
       "Values": [
         "76",
         "55",
-        "38",
-        "36",
         "10",
+        "47",
+        "45",
+        "36",
         "30",
         "28"
       ],
@@ -715,10 +745,9 @@
       "Values": [
         "59",
         "30",
-        "20",
         "2",
-        "18",
-        "15"
+        "23",
+        "20"
       ],
       "DefaultIndex": 0
     },
@@ -739,8 +768,7 @@
         "62",
         "0",
         "20",
-        "22",
-        "15"
+        "22"
       ],
       "DefaultIndex": 0
     },
@@ -912,6 +940,15 @@
         "0"
       ],
       "ResetOnInit": false
+    },
+    {
+      "Name": "KswapdUclaimMin",
+      "Path": "/sys/kernel/vendor_mm/kswapd_uclamp_min",
+      "Values": [
+        "0",
+        "200"
+      ],
+      "ResetOnInit": true
     }
   ],
   "Actions": [
@@ -1089,12 +1126,6 @@
     {
       "PowerHint": "LAUNCH",
       "Node": "FGPreferIdle",
-      "Duration": 5000,
-      "Value": "1"
-    },
-    {
-      "PowerHint": "LAUNCH",
-      "Node": "PowerHALLaunch",
       "Duration": 5000,
       "Value": "1"
     },
@@ -1385,9 +1416,14 @@
       "Value": "0"
     },
     {
-      "PowerHint": "CAMERA_LAUNCH",
+      "PowerHint": "DISPLAY_INACTIVE",
+      "Node": "KswapdUclaimMin",
+      "Duration": 0,
+      "Value": "0"
+    },
+    {
+      "PowerHint": "CAMERA_PA_KILL_BOOST",
       "Node": "PA_KILL",
-      "EnableProperty": "vendor.powerhal.is_launch",
       "Duration": 0,
       "Value": "102400"
     },
@@ -1579,9 +1615,57 @@
     },
     {
       "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
-      "Node": "TAUClampBoost",
+      "Node": "ReducePreferIdle",
       "Duration": 3000,
-      "Value": "600"
+      "Value": "0"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAPreferredIdleMaskHigh",
+      "Duration": 3000,
+      "Value": "0xf0"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAPreferredIdleMaskMid",
+      "Duration": 3000,
+      "Value": "0xf0"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAPreferredIdleMaskLow",
+      "Duration": 3000,
+      "Value": "0xf0"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAUclampMinOnNiceEnable",
+      "Duration": 3000,
+      "Value": "1"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAUclampMinOnNiceMidValue",
+       "Duration": 3000,
+       "Value": "600"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAUclampMinOnNiceHighPrio",
+      "Duration": 3000,
+      "Value": "119"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAUclampMinOnNiceMidPrio",
+      "Duration": 3000,
+      "Value": "128"
+    },
+    {
+      "PowerHint": "CAMERA_CAPTURE_CPU_THROTTLE",
+      "Node": "TAPreferIdle",
+      "Duration": 3000,
+      "Value": "1"
     },
     {
       "PowerHint": "CAMERA_THERMAL_SEVERE_BOOST",
@@ -1875,7 +1959,7 @@
       "PowerHint": "CAMERA_STREAMING_EXTREME",
       "Node": "PMU_LIT_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "36"
+      "Value": "47"
     },
     {
       "PowerHint": "CAMERA_STREAMING_EXTREME",
@@ -1887,7 +1971,7 @@
       "PowerHint": "CAMERA_STREAMING_EXTREME",
       "Node": "PMU_MID_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "15"
+      "Value": "20"
     },
     {
       "PowerHint": "CAMERA_STREAMING_EXTREME",
@@ -1899,7 +1983,7 @@
       "PowerHint": "CAMERA_STREAMING_EXTREME",
       "Node": "PMU_BIG_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "15"
+      "Value": "20"
     },
     {
       "PowerHint": "CAMERA_STREAMING_EXTREME",
@@ -2049,7 +2133,7 @@
       "PowerHint": "CAMERA_STREAMING_HIGH",
       "Node": "PMU_LIT_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "38"
+      "Value": "45"
     },
     {
       "PowerHint": "CAMERA_STREAMING_HIGH",
@@ -2061,7 +2145,7 @@
       "PowerHint": "CAMERA_STREAMING_HIGH",
       "Node": "PMU_MID_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "20"
+      "Value": "30"
     },
     {
       "PowerHint": "CAMERA_STREAMING_HIGH",
@@ -2241,7 +2325,7 @@
       "PowerHint": "CAMERA_STREAMING_STANDARD",
       "Node": "PMU_LIT_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "30"
+      "Value": "47"
     },
     {
       "PowerHint": "CAMERA_STREAMING_STANDARD",
@@ -2253,7 +2337,7 @@
       "PowerHint": "CAMERA_STREAMING_STANDARD",
       "Node": "PMU_MID_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "18"
+      "Value": "23"
     },
     {
       "PowerHint": "CAMERA_STREAMING_STANDARD",
@@ -3346,7 +3430,7 @@
       "PowerHint": "CAMERA_PROJECT11",
       "Node": "PMU_LIT_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "28"
+      "Value": "47"
     },
     {
       "PowerHint": "CAMERA_PROJECT11",
@@ -3358,7 +3442,7 @@
       "PowerHint": "CAMERA_PROJECT11",
       "Node": "PMU_MID_SPC_THRESHOLD",
       "Duration": 0,
-      "Value": "18"
+      "Value": "23"
     },
     {
       "PowerHint": "CAMERA_PROJECT11",
@@ -3497,11 +3581,12 @@
       "TargetTimeFactor": 1.0,
       "StaleTimeFactor": 15.0,
       "HeuristicBoost_On": true,
-      "HBoostOnMissedCycles": 8,
-      "HBoostOffMaxAvgRatio": 4.0,
-      "HBoostOffMissedCycles": 5,
-      "HBoostPidPuFactor": 0.5,
-      "HBoostUclampMin": 722,
+      "HBoostModerateJankThreshold": 2,
+      "HBoostOffMaxAvgDurRatio": 4.0,
+      "HBoostSevereJankPidPu": 0.3,
+      "HBoostSevereJankThreshold": 8,
+      "HBoostUclampMinCeilingRange": [480, 722],
+      "HBoostUclampMinFloorRange": [230, 410],
       "JankCheckTimeFactor": 1.2,
       "LowFrameRateThreshold": 25,
       "MaxRecordsNum": 300,
@@ -3534,11 +3619,12 @@
       "TargetTimeFactor": 1.0,
       "StaleTimeFactor": 15.0,
       "HeuristicBoost_On": true,
-      "HBoostOnMissedCycles": 8,
-      "HBoostOffMaxAvgRatio": 4.0,
-      "HBoostOffMissedCycles": 5,
-      "HBoostPidPuFactor": 0.5,
-      "HBoostUclampMin": 722,
+      "HBoostModerateJankThreshold": 2,
+      "HBoostOffMaxAvgDurRatio": 4.0,
+      "HBoostSevereJankPidPu": 0.35,
+      "HBoostSevereJankThreshold": 8,
+      "HBoostUclampMinCeilingRange": [480, 722],
+      "HBoostUclampMinFloorRange": [230, 410],
       "JankCheckTimeFactor": 1.2,
       "LowFrameRateThreshold": 25,
       "MaxRecordsNum": 300,
@@ -3571,11 +3657,12 @@
       "TargetTimeFactor": 1.0,
       "StaleTimeFactor": 15.0,
       "HeuristicBoost_On": true,
-      "HBoostOnMissedCycles": 8,
-      "HBoostOffMaxAvgRatio": 4.0,
-      "HBoostOffMissedCycles": 5,
-      "HBoostPidPuFactor": 0.5,
-      "HBoostUclampMin": 722,
+      "HBoostModerateJankThreshold": 2,
+      "HBoostOffMaxAvgDurRatio": 4.0,
+      "HBoostSevereJankPidPu": 0.25,
+      "HBoostSevereJankThreshold": 8,
+      "HBoostUclampMinCeilingRange": [480, 722],
+      "HBoostUclampMinFloorRange": [230, 410],
       "JankCheckTimeFactor": 1.2,
       "LowFrameRateThreshold": 25,
       "MaxRecordsNum": 300,
