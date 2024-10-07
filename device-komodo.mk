@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+SHIPPING_API_LEVEL := 34
+
 ifdef RELEASE_GOOGLE_KOMODO_RADIO_DIR
 RELEASE_GOOGLE_PRODUCT_RADIO_DIR := $(RELEASE_GOOGLE_KOMODO_RADIO_DIR)
 endif
@@ -27,6 +29,10 @@ $(call soong_config_set,caimito_bootloader,prebuilt_dir,$(RELEASE_GOOGLE_BOOTLOA
 ifdef RELEASE_KERNEL_KOMODO_DIR
 TARGET_KERNEL_DIR ?= $(RELEASE_KERNEL_KOMODO_DIR)
 TARGET_BOARD_KERNEL_HEADERS ?= $(RELEASE_KERNEL_KOMODO_DIR)/kernel-headers
+
+ifneq ($(TARGET_BOOTS_16K),true)
+PRODUCT_16K_DEVELOPER_OPTION := $(RELEASE_GOOGLE_KOMODO_16K_DEVELOPER_OPTION)
+endif
 
 include device/google/caimito/device-caimito-16k-common.mk
 
@@ -64,12 +70,12 @@ endif
 
 include device/google/caimito/audio/komodo/audio-tables.mk
 include device/google/zumapro/device-shipping-common.mk
-include hardware/google/pixel/vibrator/cs40l26/device.mk
 include device/google/gs-common/bcmbt/bluetooth.mk
 include device/google/gs-common/touch/gti/predump_gti.mk
 include device/google/caimito/fingerprint/ultrasonic_udfps.mk
 include device/google/gs-common/modem/radio_ext/radio_ext.mk
 include device/google/gs-common/pixelsupport/pixelsupport.mk
+include device/google/gs-common/gril/hidl/1.7/gril_hidl.mk
 
 # Increment the SVN for any official public releases
 ifdef RELEASE_SVN_KOMODO
@@ -203,10 +209,6 @@ PRODUCT_PACKAGES += \
 # declare use of spatial audio
 PRODUCT_PROPERTY_OVERRIDES += \
        ro.audio.spatializer_enabled=true
-
-# declare use of stereo spatialization
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.audio.stereo_spatialization_enabled=true
 
 ifneq ($(USE_AUDIO_HAL_AIDL),true)
 # HIDL Sound Dose
@@ -367,8 +369,8 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.camera.exif_reveal_make_model=true
 
-# Media Performance Class 14
-PRODUCT_PRODUCT_PROPERTIES += ro.odm.build.media_performance_class=34
+# Media Performance Class 15
+PRODUCT_PRODUCT_PROPERTIES += ro.odm.build.media_performance_class=35
 
 # Vibrator HAL
 $(call soong_config_set,haptics,kernel_ver,v$(subst .,_,$(TARGET_LINUX_KERNEL_VERSION)))
@@ -436,7 +438,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # LE Audio Unicast Allowlist
 PRODUCT_PRODUCT_PROPERTIES += \
-   persist.bluetooth.leaudio.allow_list=SM-R510
+   persist.bluetooth.leaudio.allow_list=SM-R510,WF-1000XM5
 
 # Support LE & Classic concurrent encryption (b/330704060)
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -467,27 +469,22 @@ ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
 $(call inherit-product-if-exists, device/google/common/etm/device-userdebug-modules.mk)
 endif
 
-# Connectivity Resources Overlay
+# Connectivity Resources Overlay for Thread host settings
 PRODUCT_PACKAGES += \
     ConnectivityResourcesOverlayCaimitoOverride
+
+# Thread Dispatcher enablement in Bluetooth HAL
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.bluetooth.thread_dispatcher.enabled=false
 
 #Component Override for Pixel Troubleshooting App
 PRODUCT_COPY_FILES += \
     device/google/caimito/komodo/komodo-component-overrides.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sysconfig/komodo-component-overrides.xml
 
-PRODUCT_PRODUCT_PROPERTIES += \
-    persist.bluetooth.thread_dispatcher.enabled=true
-
-# Thread HAL
-ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
-PRODUCT_PACKAGES += \
-   com.google.caimito.hardware.threadnetwork \
-   ThreadNetworkDemoApp
-endif
-
 # Bluetooth device id
+# Komodo: 0x4111
 PRODUCT_PRODUCT_PROPERTIES += \
-    bluetooth.device_id.product_id=20497
+    bluetooth.device_id.product_id=16657
 
 # Set support for LEA multicodec
 PRODUCT_PRODUCT_PROPERTIES += \

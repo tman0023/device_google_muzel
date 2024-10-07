@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+SHIPPING_API_LEVEL := 34
+
 ifdef RELEASE_GOOGLE_RIPCURRENTPRO_RADIO_DIR
 RELEASE_GOOGLE_PRODUCT_RADIO_DIR := $(RELEASE_GOOGLE_RIPCURRENTPRO_RADIO_DIR)
 endif
@@ -43,10 +45,10 @@ $(call inherit-product-if-exists, vendor/qorvo/uwb/qm35-hal/Device.mk)
 
 include device/google/caimito/audio/ripcurrentpro/audio-tables.mk
 include device/google/zumapro/device-shipping-common.mk
-include hardware/google/pixel/vibrator/cs40l26/device-stereo.mk
 include device/google/gs-common/bcmbt/bluetooth.mk
 include device/google/gs-common/touch/stm/stm20.mk
 include device/google/caimito/fingerprint/ultrasonic_udfps.mk
+include device/google/gs-common/gril/hidl/1.7/gril_hidl.mk
 
 # go/lyric-soong-variables
 $(call soong_config_set,lyric,camera_hardware,ripcurrentpro)
@@ -109,10 +111,6 @@ PRODUCT_PACKAGES += \
 # declare use of spatial audio
 PRODUCT_PROPERTY_OVERRIDES += \
        ro.audio.spatializer_enabled=true
-
-# declare use of stereo spatialization
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.audio.stereo_spatialization_enabled=true
 
 # Bluetooth hci_inject test tool
 PRODUCT_PACKAGES_DEBUG += \
