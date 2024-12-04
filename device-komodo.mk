@@ -404,17 +404,17 @@ PRODUCT_VENDOR_PROPERTIES += \
 # Bluetooth LE Audio
 # Unicast
 PRODUCT_PRODUCT_PROPERTIES += \
-	bluetooth.profile.bap.unicast.client.enabled=true \
-	bluetooth.profile.csip.set_coordinator.enabled=true \
-	bluetooth.profile.hap.client.enabled=true \
-	bluetooth.profile.mcp.server.enabled=true \
-	bluetooth.profile.ccp.server.enabled=true \
-	bluetooth.profile.vcp.controller.enabled=true
+	bluetooth.profile.bap.unicast.client.enabled?=true \
+	bluetooth.profile.csip.set_coordinator.enabled?=true \
+	bluetooth.profile.hap.client.enabled?=true \
+	bluetooth.profile.mcp.server.enabled?=true \
+	bluetooth.profile.ccp.server.enabled?=true \
+	bluetooth.profile.vcp.controller.enabled?=true
 
 # Bluetooth LE Audio Broadcast
 PRODUCT_PRODUCT_PROPERTIES += \
-	bluetooth.profile.bap.broadcast.assist.enabled=true \
-	bluetooth.profile.bap.broadcast.source.enabled=true
+	bluetooth.profile.bap.broadcast.assist.enabled?=true \
+	bluetooth.profile.bap.broadcast.source.enabled?=true
 
 # LE Audio switcher in developer options
 PRODUCT_PRODUCT_PROPERTIES += \
