@@ -390,8 +390,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.vibrator.hal.context.scale=60 \
     persist.vendor.vibrator.hal.context.fade=true \
     persist.vendor.vibrator.hal.context.cooldowntime=1600 \
-    persist.vendor.vibrator.hal.context.settlingtime=5000 \
-    ro.vendor.vibrator.hal.pm.activetimeout=5
+    persist.vendor.vibrator.hal.context.settlingtime=5000
 
 # Override Output Distortion Gain
 PRODUCT_VENDOR_PROPERTIES += \
