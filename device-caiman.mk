@@ -37,7 +37,7 @@ TARGET_KERNEL_DIR ?= $(RELEASE_KERNEL_CAIMAN_DIR)
 TARGET_BOARD_KERNEL_HEADERS ?= $(RELEASE_KERNEL_CAIMAN_DIR)/kernel-headers
 
 ifneq ($(TARGET_BOOTS_16K),true)
-PRODUCT_16K_DEVELOPER_OPTION ?= $(RELEASE_GOOGLE_CAIMAN_16K_DEVELOPER_OPTION)
+PRODUCT_16K_DEVELOPER_OPTION := $(RELEASE_GOOGLE_CAIMAN_16K_DEVELOPER_OPTION)
 endif
 
 include device/google/caimito/device-caimito-16k-common.mk
@@ -403,12 +403,12 @@ PRODUCT_VENDOR_PROPERTIES += \
 # Bluetooth LE Audio
 # Unicast
 PRODUCT_PRODUCT_PROPERTIES += \
-	bluetooth.profile.bap.unicast.client.enabled=true \
-	bluetooth.profile.csip.set_coordinator.enabled=true \
-	bluetooth.profile.hap.client.enabled=true \
-	bluetooth.profile.mcp.server.enabled=true \
-	bluetooth.profile.ccp.server.enabled=true \
-	bluetooth.profile.vcp.controller.enabled=true
+	bluetooth.profile.bap.unicast.client.enabled?=true \
+	bluetooth.profile.csip.set_coordinator.enabled?=true \
+	bluetooth.profile.hap.client.enabled?=true \
+	bluetooth.profile.mcp.server.enabled?=true \
+	bluetooth.profile.ccp.server.enabled?=true \
+	bluetooth.profile.vcp.controller.enabled?=true
 
 # Set support one-handed mode
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -416,8 +416,8 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # Bluetooth LE Audio Broadcast
 PRODUCT_PRODUCT_PROPERTIES += \
-	bluetooth.profile.bap.broadcast.assist.enabled=true \
-	bluetooth.profile.bap.broadcast.source.enabled=true
+	bluetooth.profile.bap.broadcast.assist.enabled?=true \
+	bluetooth.profile.bap.broadcast.source.enabled?=true
 
 # LE Audio switcher in developer options
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -446,7 +446,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
 
 # LE Audio Unicast Allowlist
 PRODUCT_PRODUCT_PROPERTIES += \
-   persist.bluetooth.leaudio.allow_list=SM-R510,WF-1000XM5
+   persist.bluetooth.leaudio.allow_list=SM-R510,WF-1000XM5,SM-R630
 
 # Support LE & Classic concurrent encryption (b/330704060)
 PRODUCT_PRODUCT_PROPERTIES += \
@@ -462,6 +462,9 @@ PRODUCT_PRODUCT_PROPERTIES += \
 SUPPORT_RIL_DOMAIN_SELECTION := true
 
 SUPPORT_VENDOR_SATELLITE_SERVICE := true
+
+# Support NTN(satellite) with dual SIM
+NTN_DUAL_SIM := true
 
 # ETM
 ifneq (,$(filter userdebug eng, $(TARGET_BUILD_VARIANT)))
@@ -502,3 +505,8 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     device/google/caimito/bluetooth/audio_set_configurations.json:$(TARGET_COPY_OUT_VENDOR)/etc/aidl/le_audio/aidl_audio_set_configurations.json
+
+# Enable APF by default
+PRODUCT_VENDOR_PROPERTIES += \
+    vendor.powerhal.apf_disabled=false \
+    vendor.powerhal.apf_enabled=true
