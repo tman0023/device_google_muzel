@@ -313,7 +313,8 @@ PRODUCT_SOONG_NAMESPACES += \
 
 # UWB Overlay
 PRODUCT_PACKAGES += \
-    UwbOverlayKM4
+    UwbOverlayKM4 \
+    UwbOverlayKM4Gsi
 
 # WiFi Overlay
 PRODUCT_PACKAGES += \
