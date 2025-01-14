@@ -40,8 +40,6 @@ ifneq ($(TARGET_BOOTS_16K),true)
 PRODUCT_16K_DEVELOPER_OPTION := $(RELEASE_GOOGLE_KOMODO_16K_DEVELOPER_OPTION)
 endif
 
-include device/google/caimito/device-caimito-16k-common.mk
-
 else
 TARGET_KERNEL_DIR ?= device/google/caimito-kernels/6.1/24D1
 TARGET_BOARD_KERNEL_HEADERS ?= device/google/caimito-kernels/6.1/24D1/kernel-headers
