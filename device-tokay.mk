@@ -40,8 +40,6 @@ ifneq ($(TARGET_BOOTS_16K),true)
 PRODUCT_16K_DEVELOPER_OPTION := $(RELEASE_GOOGLE_TOKAY_16K_DEVELOPER_OPTION)
 endif
 
-include device/google/caimito/device-caimito-16k-common.mk
-
 else
 TARGET_KERNEL_DIR ?= device/google/caimito-kernels/6.1/24D1
 TARGET_BOARD_KERNEL_HEADERS ?= device/google/caimito-kernels/6.1/24D1/kernel-headers
@@ -355,8 +353,7 @@ PRODUCT_VENDOR_PROPERTIES += \
     persist.vendor.vibrator.hal.context.scale=60 \
     persist.vendor.vibrator.hal.context.fade=true \
     persist.vendor.vibrator.hal.context.cooldowntime=1600 \
-    persist.vendor.vibrator.hal.context.settlingtime=5000 \
-    ro.vendor.vibrator.hal.pm.activetimeout=5
+    persist.vendor.vibrator.hal.context.settlingtime=5000
 
 # Override Output Distortion Gain
 PRODUCT_VENDOR_PROPERTIES += \
