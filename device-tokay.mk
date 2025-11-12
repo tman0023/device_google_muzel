@@ -25,10 +25,7 @@ ifneq ($(TARGET_BOOTS_16K),true)
 PRODUCT_16K_DEVELOPER_OPTION := true
 endif
 
-# display
 DEVICE_PACKAGE_OVERLAYS += device/google/caimito/tokay/overlay
-
-USE_AUDIO_HAL_AIDL := true
 
 include device/google/caimito/audio/tokay/audio-tables.mk
 include device/google/zumapro/device-shipping-common.mk
@@ -46,13 +43,7 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.device_family=CM4KM4TK4TG4
 
-# go/lyric-soong-variables
-$(call soong_config_set,lyric,camera_hardware,tokay)
-$(call soong_config_set,lyric,tuning_product,tokay)
-$(call soong_config_set,google3a_config,target_device,tokay)
-
 # display
-DEVICE_PACKAGE_OVERLAYS += device/google/caimito/tokay/overlay
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.set_idle_timer_ms=1000
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.surface_flinger.ignore_hdr_camera_layers=true
 
@@ -167,36 +158,6 @@ PRODUCT_PACKAGES += \
 	libspatialaudio \
 	librondo
 
-# Keymaster HAL
-#LOCAL_KEYMASTER_PRODUCT_PACKAGE ?= android.hardware.keymaster@4.1-service
-
-# Gatekeeper HAL
-#LOCAL_GATEKEEPER_PRODUCT_PACKAGE ?= android.hardware.gatekeeper@1.0-service.software
-
-
-# Gatekeeper
-# PRODUCT_PACKAGES += \
-# 	android.hardware.gatekeeper@1.0-service.software
-
-# Keymint replaces Keymaster
-# PRODUCT_PACKAGES += \
-# 	android.hardware.security.keymint-service
-
-# Keymaster
-#PRODUCT_PACKAGES += \
-#	android.hardware.keymaster@4.0-impl \
-#	android.hardware.keymaster@4.0-service
-
-#PRODUCT_PACKAGES += android.hardware.keymaster@4.0-service.remote
-#PRODUCT_PACKAGES += android.hardware.keymaster@4.1-service.remote
-#LOCAL_KEYMASTER_PRODUCT_PACKAGE := android.hardware.keymaster@4.1-service
-#LOCAL_KEYMASTER_PRODUCT_PACKAGE ?= android.hardware.keymaster@4.1-service
-
-# PRODUCT_PROPERTY_OVERRIDES += \
-# 	ro.hardware.keystore_desede=true \
-# 	ro.hardware.keystore=software \
-# 	ro.hardware.gatekeeper=software
-
 # PowerStats HAL
 PRODUCT_SOONG_NAMESPACES += \
     device/google/caimito/powerstats/tokay
@@ -253,9 +214,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_PRODUCT_PROPERTIES += ro.odm.build.media_performance_class=35
 
 # Vibrator HAL
-$(call soong_config_set,haptics,kernel_ver,v$(subst .,_,$(TARGET_LINUX_KERNEL_VERSION)))
-ACTUATOR_MODEL := luxshare_ict_081545
-ADAPTIVE_HAPTICS_FEATURE := adaptive_haptics_v1
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.vibrator.hal.chirp.enabled=1 \
     ro.vendor.vibrator.hal.device.mass=0.222 \
@@ -325,15 +283,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 # Support LE & Classic concurrent encryption (b/330704060)
 PRODUCT_PRODUCT_PROPERTIES += \
     bluetooth.ble.allow_enc_with_bredr=true
-
-# Exynos RIL and telephony
-# Support RIL Domain-selection
-SUPPORT_RIL_DOMAIN_SELECTION := true
-
-SUPPORT_VENDOR_SATELLITE_SERVICE := true
-
-# Support NTN(satellite) with dual SIM
-NTN_DUAL_SIM := true
 
 # Keyboard height ratio and bottom padding in dp for portrait mode
 PRODUCT_PRODUCT_PROPERTIES += \
