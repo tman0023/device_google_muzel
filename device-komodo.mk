@@ -16,22 +16,7 @@
 
 SHIPPING_API_LEVEL := 34
 
-ifdef RELEASE_GOOGLE_KOMODO_RADIO_DIR
-RELEASE_GOOGLE_PRODUCT_RADIO_DIR := $(RELEASE_GOOGLE_KOMODO_RADIO_DIR)
-endif
-ifdef RELEASE_GOOGLE_KOMODO_RADIOCFG_DIR
-RELEASE_GOOGLE_PRODUCT_RADIOCFG_DIR := $(RELEASE_GOOGLE_KOMODO_RADIOCFG_DIR)
-endif
-RELEASE_GOOGLE_BOOTLOADER_KOMODO_DIR ?= 24D1# Keep this for pdk TODO: b/327119000
-RELEASE_GOOGLE_PRODUCT_BOOTLOADER_DIR := bootloader/$(RELEASE_GOOGLE_BOOTLOADER_KOMODO_DIR)
-$(call soong_config_set,caimito_bootloader,prebuilt_dir,$(RELEASE_GOOGLE_BOOTLOADER_KOMODO_DIR))
-
-ifdef RELEASE_KERNEL_KOMODO_VERSION
-TARGET_LINUX_KERNEL_VERSION := $(RELEASE_KERNEL_KOMODO_VERSION)
-else
-TARGET_LINUX_KERNEL_VERSION ?= 6.1
-endif
-
+TARGET_LINUX_KERNEL_VERSION := 6.1
 TARGET_KERNEL_DEVICE := caimito
 TARGET_KERNEL_DIR := device/google/$(TARGET_KERNEL_DEVICE)-kernels/$(TARGET_LINUX_KERNEL_VERSION)
 TARGET_KERNEL_PLATFORM_SOURCE := google/gs-$(TARGET_LINUX_KERNEL_VERSION)
@@ -58,34 +43,12 @@ include device/google/gs-common/modem/radio_ext/radio_ext.mk
 include device/google/gs-common/gril/hidl/1.7/gril_hidl.mk
 
 # Increment the SVN for any official public releases
-ifdef RELEASE_SVN_KOMODO
-TARGET_SVN ?= $(RELEASE_SVN_KOMODO)
-else
-# Set this for older releases that don't use build flag
-TARGET_SVN ?= 04
-endif
-
 PRODUCT_VENDOR_PROPERTIES += \
-    ro.vendor.build.svn=$(TARGET_SVN)
+    ro.vendor.build.svn=40
 
 # Set device family property for SMR
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.device_family=CM4KM4TK4TG4
-
-# Set build properties for SMR builds
-ifeq ($(RELEASE_IS_SMR), true)
-    ifneq (,$(RELEASE_BASE_OS_KOMODO))
-        PRODUCT_BASE_OS := $(RELEASE_BASE_OS_KOMODO)
-    endif
-endif
-
-# Set build properties for EMR builds
-ifeq ($(RELEASE_IS_EMR), true)
-    ifneq (,$(RELEASE_BASE_OS_KOMODO))
-        PRODUCT_PROPERTY_OVERRIDES += \
-        ro.build.version.emergency_base_os=$(RELEASE_BASE_OS_KOMODO)
-    endif
-endif
 
 # go/lyric-soong-variables
 $(call soong_config_set,lyric,camera_hardware,komodo)
@@ -129,7 +92,6 @@ PRODUCT_COPY_FILES += \
 	device/google/caimito/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_PRODUCT)/etc/libnfc-nci.conf
 
 PRODUCT_PACKAGES += \
-	$(RELEASE_PACKAGE_NFC_STACK) \
 	Tag \
 	android.hardware.nfc-service.st \
 	NfcOverlayKomodo
