@@ -61,7 +61,6 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.ese.xml
 
 PRODUCT_PACKAGES += \
-	Tag \
 	android.hardware.nfc-service.st \
 	NfcOverlayCaiman
 
@@ -87,10 +86,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # POF
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.bluetooth.finder.supported=true
-
-# Spatial Audio
-PRODUCT_PACKAGES += \
-	libspatialaudio
 
 # declare use of spatial audio
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -127,11 +122,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.vendor.bluetooth.evb_bdaddr="22:22:22:33:44:55"
 
-# Spatial Audio
-PRODUCT_PACKAGES += \
-	libspatialaudio \
-	librondo
-
 # PowerStats HAL
 PRODUCT_SOONG_NAMESPACES += \
     device/google/caimito/powerstats/caiman
@@ -157,10 +147,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.lbe.supported=1
 
 # Display ACL
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += vendor.display.0.brightness.acl.default=1
-
-#Thermal VT estimator
-PRODUCT_PACKAGES += \
-    libthermal_tflite_wrapper
 
 PRODUCT_VENDOR_PROPERTIES += \
 	persist.device_config.configuration.disable_rescue_party=true

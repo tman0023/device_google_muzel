@@ -18,10 +18,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     EuiccSupportPixelOverlay
 
-# IWLAN
-PRODUCT_PACKAGES += \
-    Iwlan
-
 # PowerShare
 include hardware/google/pixel/powershare/device.mk
 
@@ -40,9 +36,7 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    android.hardware.location.gps.prebuilt.xml \
-    liblzma.vendor \
-    libunwindstack.vendor
+    android.hardware.location.gps.prebuilt.xml
 
 # Graphics
 PRODUCT_PACKAGES += \

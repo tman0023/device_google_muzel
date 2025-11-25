@@ -63,7 +63,6 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.nfc.ese.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.ese.xml
 
 PRODUCT_PACKAGES += \
-	Tag \
 	android.hardware.nfc-service.st \
 	NfcOverlayTokay
 
@@ -89,10 +88,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # POF
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.bluetooth.finder.supported=true
-
-# Spatial Audio
-PRODUCT_PACKAGES += \
-	libspatialaudio
 
 # declare use of spatial audio
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -129,11 +124,6 @@ PRODUCT_PRODUCT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.vendor.bluetooth.evb_bdaddr="22:22:22:33:44:55"
 
-# Spatial Audio
-PRODUCT_PACKAGES += \
-	libspatialaudio \
-	librondo
-
 # PowerStats HAL
 PRODUCT_SOONG_NAMESPACES += \
     device/google/caimito/powerstats/tokay
@@ -154,10 +144,6 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     vendor.display.lbe.supported=1 \
     ro.vendor.primarydisplay.google-tk4c.temperature_path=/dev/thermal/tz-by-name/disp_therm/temp \
     ro.vendor.display.read_temp_interval=30
-
-#Thermal VT estimator
-PRODUCT_PACKAGES += \
-    libthermal_tflite_wrapper
 
 PRODUCT_VENDOR_PROPERTIES += \
 	persist.device_config.configuration.disable_rescue_party=true
