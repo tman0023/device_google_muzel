@@ -26,7 +26,6 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
-    'device/google/caimito',
     'hardware/google/av',
     'hardware/google/interfaces',
     'hardware/google/pixel',
