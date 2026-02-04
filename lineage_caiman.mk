@@ -23,8 +23,8 @@ TARGET_SCREEN_HEIGHT := 2856
 TARGET_SCREEN_WIDTH := 1280
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    BuildDesc="caiman-user 16 BP4A.260105.004.E1 14587043 release-keys" \
-    BuildFingerprint=google/caiman/caiman:16/BP4A.260105.004.E1/14587043:user/release-keys \
+    BuildDesc="caiman-user 16 BP4A.260205.002 14624737 release-keys" \
+    BuildFingerprint=google/caiman/caiman:16/BP4A.260205.002/14624737:user/release-keys \
     DeviceProduct=$(DEVICE_CODENAME)
 
 $(call inherit-product, $(VENDOR_PATH)/$(DEVICE_CODENAME)-vendor.mk)
