@@ -1,10 +1,10 @@
 [
   {
-    "repository": "android_device_google_zumapro",
-    "target_path": "device/google/zumapro"
+    "repository": "android_device_google_laguna",
+    "target_path": "device/google/laguna"
   },
   {
-    "repository": "android_device_google_caimito-kernels",
-    "target_path": "device/google/caimito-kernels"
+    "repository": "android_device_google_muzel-kernels",
+    "target_path": "device/google/muzel-kernels"
   }
 ]

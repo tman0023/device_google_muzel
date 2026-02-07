@@ -4,7 +4,7 @@
 //
 
 prebuilt_etc {
-    name: "init.recovery.caimito.touch.rc",
+    name: "init.recovery.muzel.touch.rc",
     src: "init.recovery.touch.rc",
     sub_dir: "init",
     recovery: true,

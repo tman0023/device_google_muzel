@@ -4,9 +4,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/aosp_caiman.mk \
-    $(LOCAL_DIR)/aosp_komodo.mk \
-    $(LOCAL_DIR)/aosp_tokay.mk \
-    $(LOCAL_DIR)/lineage_caiman.mk \
-    $(LOCAL_DIR)/lineage_komodo.mk \
-    $(LOCAL_DIR)/lineage_tokay.mk
+    $(LOCAL_DIR)/aosp_blazer.mk \
+    $(LOCAL_DIR)/aosp_mustang.mk \
+    $(LOCAL_DIR)/aosp_frankel.mk \
+    $(LOCAL_DIR)/lineage_blazer.mk \
+    $(LOCAL_DIR)/lineage_mustang.mk \
+    $(LOCAL_DIR)/lineage_frankel.mk
