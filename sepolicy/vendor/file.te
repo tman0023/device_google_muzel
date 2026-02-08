@@ -1,0 +1,4 @@
+type sysfs_h2omg_dev, fs_type, sysfs_type;
+type sysfs_h2omg_drv, fs_type, sysfs_type;
+type sysfs_h2omg_fuse, fs_type, sysfs_type;
+type sysfs_h2omg_val, fs_type, sysfs_type;
