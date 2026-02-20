@@ -45,6 +45,7 @@ include hardware/google/pixel/powershare/device.mk
 
 # Properties
 TARGET_PRODUCT_PROP += $(DEVICE_PATH)/$(DEVICE_CODENAME)/product.prop
+TARGET_SYSTEM_EXT_PROP += $(DEVICE_PATH)/$(DEVICE_CODENAME)/system_ext.prop
 TARGET_VENDOR_PROP += $(DEVICE_PATH)/$(DEVICE_CODENAME)/vendor.prop
 
 # Recovery
