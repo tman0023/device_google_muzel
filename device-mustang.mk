@@ -12,7 +12,7 @@ TARGET_KERNEL_DIR := device/google/$(TARGET_KERNEL_DEVICE)-kernels/$(TARGET_LINU
 TARGET_KERNEL_PLATFORM_SOURCE := google/gs-$(TARGET_LINUX_KERNEL_VERSION)
 
 # Inherit from laguna
-include device/google/laguna/device-shipping-common.mk
+include device/google/laguna/common.mk
 
 # Overlays
 PRODUCT_PACKAGES += \
