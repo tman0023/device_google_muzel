@@ -1,10 +1,14 @@
 [
   {
-    "repository": "android_device_google_laguna",
-    "target_path": "device/google/laguna"
+    "repository": "TensorG5-devs/android_device_google_laguna",
+    "target_path": "device/google/laguna",
+    "remote": "github-non-los",
+    "branch": "lineage-23.2"
   },
   {
-    "repository": "android_device_google_muzel-kernels",
-    "target_path": "device/google/muzel-kernels"
+    "repository": "TensorG5-devs/android_device_google_muzel-kernels",
+    "target_path": "device/google/muzel-kernels",
+    "remote": "github-non-los",
+    "branch": "lineage-23.2"
   }
 ]
