@@ -5,3 +5,6 @@ persist.vendor.audio.leaudio_sw_offload=true
 
 # Quick start
 ro.quick_start.device_id=mustang
+
+# Lunaris props
+ro.lunaris.maintainer=Claps

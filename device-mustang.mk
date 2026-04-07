@@ -73,3 +73,8 @@ DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
 
 # Window extensions
 $(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
+
+# USB firmware for vendor_boot ramdisk
+PRODUCT_COPY_FILES += \
+    device/google/muzel-kernels/6.6/usb_phy_fw.bin:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/lib/firmware/usb_phy_fw.bin \
+    device/google/muzel-kernels/6.6/usb_phy_fw_2.27.0.bin:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/lib/firmware/usb_phy_fw_2.27.0.bin
