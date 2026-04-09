@@ -39,7 +39,9 @@ $(call inherit-product, $(VENDOR_PATH)/$(DEVICE_CODENAME)-vendor.mk)
 
 # Artifact path requirements
 PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
+    system/media/bootanimation.zip \
     system/etc/permissions/privapp-permissions-google-system.xml \
     system/etc/sysconfig/google-hiddenapi-package-allowlist.xml
 BUILD_BROKEN_PREBUILT_ELF_FILES := true
 
+TARGET_PIXEL_BOOT_ANIMATION_RES := 1080
