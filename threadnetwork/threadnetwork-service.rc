@@ -2,3 +2,4 @@ service vendor.threadnetwork_hal /apex/com.android.hardware.threadnetwork/bin/hw
     class hal
     user thread_network
     group system
+    disabled
