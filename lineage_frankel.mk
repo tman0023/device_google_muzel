@@ -7,6 +7,14 @@
 # Inherit some common stuff
 $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
+# Whether the device supports Fingerprint On Display
+TARGET_CUSTOM_UDFPS := true
+
+# Whether Including Google Apps
+WITH_GMS := true
+
+PRODUCT_CHECK_PREBUILT_MAX_PAGE_SIZE := false
+
 # Inherit device configuration
 DEVICE_CODENAME := frankel
 DEVICE_PATH := device/google/muzel
@@ -28,3 +36,13 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     DeviceProduct=$(DEVICE_CODENAME)
 
 $(call inherit-product, $(VENDOR_PATH)/$(DEVICE_CODENAME)-vendor.mk)
+
+# Artifact path requirements
+PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
+    system/media/bootanimation.zip \
+    system/etc/permissions/privapp-permissions-google-system.xml \
+    system/etc/sysconfig/google-hiddenapi-package-allowlist.xml
+BUILD_BROKEN_PREBUILT_ELF_FILES := true
+
+TARGET_PIXEL_BOOT_ANIMATION_RES := 1080
+
